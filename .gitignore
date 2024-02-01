@@ -1,32 +1,90 @@
-# Prerequisites
-*.d
+#include <iostream>
+#include <string>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+using namespace std;
 
-# Precompiled Headers
-*.gch
-*.pch
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+struct KovidHastasi {
+    string ad;
+    string soyad;
+    int yas;
+    bool temaslimi;
+};
 
-# Fortran module files
-*.mod
-*.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+void hastaEkle(KovidHastasi hastalar[], int & toplamHastaSayisi) {
+    string ad, soyad;
+    int yas;
+    bool temaslimi;
 
-# Executables
-*.exe
-*.out
-*.app
+    if (toplamHastaSayisi >= 100) {
+        cout << "Hasta eklemek için yer kalmadı!" << endl;
+        return;
+    }
+
+    cout << "Hasta adını giriniz: ";
+    cin >> ad;
+    cout << "Hasta soyadını giriniz: ";
+    cin >> soyad;
+    cout << "Hasta yaşını giriniz: ";
+    cin >> yas;
+    cout << "Temaslı mı? (1: Evet, 0: Hayır): ";
+    cin >> temaslimi;
+
+    KovidHastasi yeniHasta = {ad, soyad, yas, temaslimi};
+    hastalar[toplamHastaSayisi] = yeniHasta;
+    toplamHastaSayisi++;
+
+    cout << "Hasta başarıyla eklendi." << endl;
+}
+
+void hastalariListele(KovidHastasi hastalar[], int toplamHastaSayisi) {
+    if (toplamHastaSayisi == 0) {
+        cout << "Sistemde kayıtlı hasta bulunmamaktadır." << endl;
+        return;
+    }
+
+    cout << "Kovid Hastaları:" << endl;
+    for (int i = 0; i < toplamHastaSayisi; ++i) {
+        cout << hastalar[i].ad << " " << hastalar[i].soyad << ", " << hastalar[i].yas << " yaşında";
+        if (hastalar[i].temaslimi)
+            cout << " - Temaslı" << endl;
+        else
+            cout << endl;
+    }
+}
+
+int main() 
+{
+	setlocale(LC_ALL,"Turkish");
+    KovidHastasi hastalar[100];
+    int toplamHastaSayisi = 0;
+
+    while (true) {
+        cout << "\nMenü:\n";
+        cout << "1. Hasta Ekle\n";
+        cout << "2. Hastaları Listele\n";
+        cout << "3. Çıkış\n";
+        cout << "Seçiminiz: ";
+
+        int secim;
+        cin >> secim;
+
+    switch (secim)
+	{
+        case 1:
+            hastaEkle(hastalar, toplamHastaSayisi);
+            break;
+        case 2:
+            hastalariListele(hastalar, toplamHastaSayisi);
+            break;
+        case 3:
+            cout << "Programdan çıkılıyor...\n";
+            return 0;
+        default:
+            cout << "Geçersiz seçim. Tekrar deneyiniz.\n";
+    }
+    }
+
+    return 0;
+}
